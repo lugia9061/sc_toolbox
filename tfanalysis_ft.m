@@ -26,13 +26,13 @@ cfg.channel = TFRhann.label{1};
 
 
 dataone=TFRhann;
-base_t=find(dataone.time<0.05 & dataone.time>-0.15);    %[-1 0] baseline
+base_t=find(dataone.time<0 & dataone.time>-0.1);    %[-1 0] baseline
 %paired t-test for every TF bin
 for k=1:length(dataone.freq)
     for m=1:length(dataone.time)
         tf_bin=squeeze(dataone.powspctrm(:,1,k,m));
         base_bin=squeeze(mean(dataone.powspctrm(:,1,k,base_t),4));
-        [h,p,ci,stats]=ttest(tf_bin,base_bin);
+        [h,p,ci,stats]=ttest2(tf_bin,base_bin);
         t_stats(1,k,m)=stats.tstat;
 %         [h p]=ttest(tf_bin,base_bin);
 %         t_stats(1,k,m)=(-log10(p))*sign(mean(tf_bin)-mean(base_bin));    %transform p-value for plotting
